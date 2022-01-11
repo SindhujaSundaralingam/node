@@ -4,7 +4,7 @@ const port = 9000;
 const server = http.createServer((req, res) => {
  res.statusCode = 200;
  res.setHeader("Content-Type", "application/json");
- res.send('{ "message" : "Good Morning, Rise and shine !!!" }');
+ res.end('{ "message" : "Good Morning, Rise and shine !!!" }');
 });
 
 server.listen(port, hostname, () => {

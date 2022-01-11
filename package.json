@@ -2,7 +2,7 @@
   "name": "lib",
   "version": "1.0.0",
   "description": "Sample node package",
-  "main": "calc.js",
+  "main": "cityDataList.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

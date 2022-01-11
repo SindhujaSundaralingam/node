@@ -1,13 +1,23 @@
 var express = require('express')
-var jsonData = require('./constant')
+var jsonData = require('./cityDataList')
 
 var server = express()
 
 server.use(express.json())
 
+function responseCb(res, data) {
+    res.header("Content-Type", "application/json"),
+    res.send(data)
+}
+
+function notFoundCb(res) {
+    res.header("Content-Type", "application/json")
+    res.status(404)
+    res.send('No data found')
+}
+
 server.get('/city', function(request, response) {
-    response.header("Content-Type", "application/json")
-    response.send(JSON.stringify(jsonData))
+    responseCb(response, JSON.stringify(jsonData))
 })
 
 server.post('/city/add', function(request, response) {
@@ -16,8 +26,7 @@ server.post('/city/add', function(request, response) {
         city: request.body.city,
         state: request.body.state
     })
-    response.header("Content-Type", "application/json")
-    response.send(JSON.stringify(jsonData))
+    responseCb(response, JSON.stringify(jsonData))
 })
 
 server.put('/city/:id', function(request, response) {
@@ -32,12 +41,9 @@ server.put('/city/:id', function(request, response) {
             state: jsonData.data[index].state,
             ...body
         }
-        response.header("Content-Type", "application/json")
-        response.send(JSON.stringify(jsonData))
+        responseCb(response, JSON.stringify(jsonData))
     } else {
-        response.header("Content-Type", "application/json")
-        response.status(404)
-        response.send('No data found')
+        notFoundCb(response)
     }
     
 })
@@ -48,15 +54,12 @@ server.delete('/city/:id', function(request, response) {
 
     if (index > -1) {
         jsonData.data.splice(index, 1)
-        response.header("Content-Type", "application/json")
-        response.send('Record deleted successfully !!!!!')
+        responseCb(response, 'Record deleted successfully !!!!!')
     } else {
-        response.header("Content-Type", "application/json")
-        response.status(404)
-        response.send('No data found')
+        notFoundCb(response)
     }
 })
 
 server.listen(9000, function() {
-    console.log('Callback function started')
+    console.log('Listening to port 9000')
 })
